@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>لوحة التحدي - الأيقونات الجديدة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,6 +48,7 @@
             color: #1e293b;
             overflow-x: hidden;
             min-height: 100vh;
+            touch-action: manipulation;
         }
 
         .glass-panel {
@@ -70,280 +71,202 @@
 
         /* Podium Styles */
         .podium-bar {
-            border-top-left-radius: 2rem;
-            border-top-right-radius: 2rem;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            padding-bottom: 3rem;
+            padding-bottom: 1rem;
             position: relative;
             transition: all 0.5s ease;
-            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.2);
-            background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.05) 100%);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15);
+            background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.05) 100%);
+        }
+        
+        @media (min-width: 768px) {
+            .podium-bar {
+                border-top-left-radius: 2rem;
+                border-top-right-radius: 2rem;
+                padding-bottom: 3rem;
+            }
         }
 
-        .bar-rank-1 {
-            background-color: #3b82f6;
-        }
-
-        /* أزرق */
-        .bar-rank-2 {
-            background-color: #6366f1;
-        }
-
-        /* نيلي */
-        .bar-rank-3 {
-            background-color: #a855f7;
-        }
-
-        /* بنفسجي */
+        .bar-rank-1 { background-color: #3b82f6; }
+        .bar-rank-2 { background-color: #6366f1; }
+        .bar-rank-3 { background-color: #a855f7; }
 
         .medal-icon {
             position: absolute;
-            top: -35px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
-            height: 80px;
             background: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            border: 5px solid white;
+            border: 3px solid white;
             z-index: 10;
+            
+            /* Responsive sizes for medal */
+            top: -20px;
+            width: 45px;
+            height: 45px;
+            font-size: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .medal-icon {
+                top: -35px;
+                width: 80px;
+                height: 80px;
+                font-size: 40px;
+                border-width: 5px;
+            }
         }
 
         .others-bar {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(15px);
             border-top: 1px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.05);
         }
 
+        /* تحسينات الموبايل لقائمة المراكز الأخيرة */
         .other-team-pill {
-            background: #f1f5f9;
+            background: #f8fafc;
             transition: all 0.3s;
         }
 
-        .other-team-pill:hover {
-            background: #fff;
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
         body.results-active {
-            overflow: hidden;
+            overflow: hidden; /* لمنع التمرير العام للصفحة عند ظهور النتائج */
+        }
+        
+        /* السماح بالتمرير داخل صفحة النتائج إذا كانت الشاشة صغيرة */
+        #results-view {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
     </style>
 </head>
 
 <body class="flex flex-col font-sans">
 
-    <div id="dashboard-view" class="container mx-auto p-4 md:p-8 flex-grow transition-all duration-700 min-h-screen">
+    <div id="dashboard-view" class="container mx-auto p-4 md:p-8 flex-grow transition-all duration-700 min-h-screen pb-24">
 
-        <header class="text-center mb-12 relative z-10">
-            <h1 class="text-5xl md:text-7xl font-black text-slate-800 mb-2 filter drop-shadow-sm tracking-tight">
-                ساحة <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">الأبطال</span>
+        <header class="text-center mb-8 md:mb-12 relative z-10 pt-4">
+            <h1 class="text-4xl md:text-7xl font-black text-slate-800 mb-2 filter drop-shadow-sm tracking-tight">
+                ساحة <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">الأبطال</span>
             </h1>
-            <p class="text-slate-500 text-lg font-medium">لوحة التحكم وإدارة النقاط المباشرة</p>
+            <p class="text-slate-500 text-sm md:text-lg font-medium">لوحة التحكم وإدارة النقاط المباشرة</p>
         </header>
 
-        <div
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-20 justify-center relative z-10">
-
-            <div class="glass-panel rounded-3xl p-6 team-card team-card-hover transition-all duration-300 relative overflow-hidden group shadow-soft-xl"
-                style="--team-color: #3b82f6; --team-color-alpha: rgba(59, 130, 246, 0.25);">
-                <div class="relative z-10 flex flex-col h-full justify-between">
-                    <div class="text-center mb-4">
-                        <div
-                            class="w-16 h-16 mx-auto bg-white rounded-2xl flex items-center justify-center mb-3 text-blue-600 shadow-md border border-blue-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                            </svg>
-                        </div>
-                        <h2 class="text-xl font-bold text-slate-800">قسم البرمجيات</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-6 mb-20 justify-center relative z-10">
+            <div class="glass-panel rounded-3xl p-4 md:p-6 team-card relative group shadow-soft-xl" style="--team-color: #3b82f6;">
+                <div class="text-center mb-2">
+                    <div class="w-12 h-12 md:w-16 md:h-16 mx-auto bg-white rounded-2xl flex items-center justify-center mb-2 text-blue-600 shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
                     </div>
-                    <div class="text-center my-4"><span
-                            class="score text-6xl font-black text-blue-600 drop-shadow-sm transition-transform duration-200 inline-block"
-                            data-value="0">0</span></div>
-                    <div class="bg-white/60 p-4 rounded-xl border border-slate-100 backdrop-blur-sm">
-                        <input type="number"
-                            class="points-input w-full bg-white border border-slate-200 rounded-lg p-3 text-center text-slate-800 font-bold text-xl mb-3 focus:outline-none"
-                            placeholder="0.0">
-                        <div class="flex gap-2"><button
-                                class="subtract-btn w-12 flex items-center justify-center bg-red-50 text-red-500 rounded-lg font-bold text-xl h-10">-</button><button
-                                class="add-btn flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-bold h-10">إضافة
-                                +</button></div>
-                    </div>
+                    <h2 class="text-lg md:text-xl font-bold text-slate-800">قسم البرمجيات</h2>
+                </div>
+                <div class="text-center my-2"><span class="score text-5xl md:text-6xl font-black text-blue-600" data-value="0">0</span></div>
+                <div class="bg-white/60 p-2 rounded-xl border border-slate-100">
+                    <input type="number" inputmode="decimal" class="points-input w-full bg-white border border-slate-200 rounded-lg p-2 text-center font-bold text-lg mb-2" placeholder="0">
+                    <div class="flex gap-2"><button class="subtract-btn w-10 bg-red-50 text-red-500 rounded-lg font-bold text-xl h-10">-</button><button class="add-btn flex-1 bg-blue-600 text-white rounded-lg font-bold h-10">إضافة</button></div>
                 </div>
             </div>
 
-            <div class="glass-panel rounded-3xl p-6 team-card team-card-hover transition-all duration-300 relative overflow-hidden group shadow-soft-xl"
-                style="--team-color: #6366f1; --team-color-alpha: rgba(99, 102, 241, 0.25);">
-                <div class="relative z-10 flex flex-col h-full justify-between">
-                    <div class="text-center mb-4">
-                        <div
-                            class="w-16 h-16 mx-auto bg-white rounded-2xl flex items-center justify-center mb-3 text-indigo-600 shadow-md border border-indigo-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                            </svg>
-                        </div>
-                        <h2 class="text-xl font-bold text-slate-800">الأمن السيبراني</h2>
+            <div class="glass-panel rounded-3xl p-4 md:p-6 team-card relative group shadow-soft-xl" style="--team-color: #6366f1;">
+                <div class="text-center mb-2">
+                    <div class="w-12 h-12 md:w-16 md:h-16 mx-auto bg-white rounded-2xl flex items-center justify-center mb-2 text-indigo-600 shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                     </div>
-                    <div class="text-center my-4"><span
-                            class="score text-6xl font-black text-indigo-600 drop-shadow-sm transition-transform duration-200 inline-block"
-                            data-value="0">0</span></div>
-                    <div class="bg-white/60 p-4 rounded-xl border border-slate-100 backdrop-blur-sm">
-                        <input type="number"
-                            class="points-input w-full bg-white border border-slate-200 rounded-lg p-3 text-center text-slate-800 font-bold text-xl mb-3 focus:outline-none"
-                            placeholder="0.0">
-                        <div class="flex gap-2"><button
-                                class="subtract-btn w-12 flex items-center justify-center bg-red-50 text-red-500 rounded-lg font-bold text-xl h-10">-</button><button
-                                class="add-btn flex-1 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-lg font-bold h-10">إضافة
-                                +</button></div>
-                    </div>
+                    <h2 class="text-lg md:text-xl font-bold text-slate-800">الأمن السيبراني</h2>
+                </div>
+                <div class="text-center my-2"><span class="score text-5xl md:text-6xl font-black text-indigo-600" data-value="0">0</span></div>
+                <div class="bg-white/60 p-2 rounded-xl border border-slate-100">
+                    <input type="number" inputmode="decimal" class="points-input w-full bg-white border border-slate-200 rounded-lg p-2 text-center font-bold text-lg mb-2" placeholder="0">
+                    <div class="flex gap-2"><button class="subtract-btn w-10 bg-red-50 text-red-500 rounded-lg font-bold text-xl h-10">-</button><button class="add-btn flex-1 bg-indigo-600 text-white rounded-lg font-bold h-10">إضافة</button></div>
                 </div>
             </div>
 
-            <div class="glass-panel rounded-3xl p-6 team-card team-card-hover transition-all duration-300 relative overflow-hidden group shadow-soft-xl"
-                style="--team-color: #a855f7; --team-color-alpha: rgba(168, 85, 247, 0.25);">
-                <div class="relative z-10 flex flex-col h-full justify-between">
-                    <div class="text-center mb-4">
-                        <div
-                            class="w-16 h-16 mx-auto bg-white rounded-2xl flex items-center justify-center mb-3 text-purple-600 shadow-md border border-purple-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-                        <h2 class="text-xl font-bold text-slate-800">علوم الحاسوب</h2>
+             <div class="glass-panel rounded-3xl p-4 md:p-6 team-card relative group shadow-soft-xl" style="--team-color: #a855f7;">
+                <div class="text-center mb-2">
+                    <div class="w-12 h-12 md:w-16 md:h-16 mx-auto bg-white rounded-2xl flex items-center justify-center mb-2 text-purple-600 shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                     </div>
-                    <div class="text-center my-4"><span
-                            class="score text-6xl font-black text-purple-600 drop-shadow-sm transition-transform duration-200 inline-block"
-                            data-value="0">0</span></div>
-                    <div class="bg-white/60 p-4 rounded-xl border border-slate-100 backdrop-blur-sm">
-                        <input type="number"
-                            class="points-input w-full bg-white border border-slate-200 rounded-lg p-3 text-center text-slate-800 font-bold text-xl mb-3 focus:outline-none"
-                            placeholder="0.0">
-                        <div class="flex gap-2"><button
-                                class="subtract-btn w-12 flex items-center justify-center bg-red-50 text-red-500 rounded-lg font-bold text-xl h-10">-</button><button
-                                class="add-btn flex-1 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg font-bold h-10">إضافة
-                                +</button></div>
-                    </div>
+                    <h2 class="text-lg md:text-xl font-bold text-slate-800">علوم الحاسوب</h2>
+                </div>
+                <div class="text-center my-2"><span class="score text-5xl md:text-6xl font-black text-purple-600" data-value="0">0</span></div>
+                <div class="bg-white/60 p-2 rounded-xl border border-slate-100">
+                    <input type="number" inputmode="decimal" class="points-input w-full bg-white border border-slate-200 rounded-lg p-2 text-center font-bold text-lg mb-2" placeholder="0">
+                    <div class="flex gap-2"><button class="subtract-btn w-10 bg-red-50 text-red-500 rounded-lg font-bold text-xl h-10">-</button><button class="add-btn flex-1 bg-purple-600 text-white rounded-lg font-bold h-10">إضافة</button></div>
                 </div>
             </div>
 
-            <div class="glass-panel rounded-3xl p-6 team-card team-card-hover transition-all duration-300 relative overflow-hidden group shadow-soft-xl"
-                style="--team-color: #0d9488; --team-color-alpha: rgba(13, 148, 136, 0.25);">
-                <div class="relative z-10 flex flex-col h-full justify-between">
-                    <div class="text-center mb-4">
-                        <div
-                            class="w-16 h-16 mx-auto bg-white rounded-2xl flex items-center justify-center mb-3 text-teal-600 shadow-md border border-teal-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 4v1m0-1c-1 0-2 .5-2 1.5V7h4V5.5C14 4.5 13 4 12 4zM5 10v7a2 2 0 002 2h10a2 2 0 002-2v-7H5zm4 4a1 1 0 110-2 1 1 0 010 2zm6 0a1 1 0 110-2 1 1 0 010 2z" />
-                            </svg>
-                            <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg> -->
-                        </div>
-                        <h2 class="text-xl font-bold text-slate-800">الذكاء الاصطناعي</h2>
+             <div class="glass-panel rounded-3xl p-4 md:p-6 team-card relative group shadow-soft-xl" style="--team-color: #0d9488;">
+                <div class="text-center mb-2">
+                    <div class="w-12 h-12 md:w-16 md:h-16 mx-auto bg-white rounded-2xl flex items-center justify-center mb-2 text-teal-600 shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m0-1c-1 0-2 .5-2 1.5V7h4V5.5C14 4.5 13 4 12 4zM5 10v7a2 2 0 002 2h10a2 2 0 002-2v-7H5zm4 4a1 1 0 110-2 1 1 0 010 2zm6 0a1 1 0 110-2 1 1 0 010 2z" /></svg>
                     </div>
-                    <div class="text-center my-4"><span
-                            class="score text-6xl font-black text-teal-600 drop-shadow-sm transition-transform duration-200 inline-block"
-                            data-value="0">0</span></div>
-                    <div class="bg-white/60 p-4 rounded-xl border border-slate-100 backdrop-blur-sm">
-                        <input type="number"
-                            class="points-input w-full bg-white border border-slate-200 rounded-lg p-3 text-center text-slate-800 font-bold text-xl mb-3 focus:outline-none"
-                            placeholder="0.0">
-                        <div class="flex gap-2"><button
-                                class="subtract-btn w-12 flex items-center justify-center bg-red-50 text-red-500 rounded-lg font-bold text-xl h-10">-</button><button
-                                class="add-btn flex-1 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-lg font-bold h-10">إضافة
-                                +</button></div>
-                    </div>
+                    <h2 class="text-lg md:text-xl font-bold text-slate-800">الذكاء الاصطناعي</h2>
+                </div>
+                <div class="text-center my-2"><span class="score text-5xl md:text-6xl font-black text-teal-600" data-value="0">0</span></div>
+                <div class="bg-white/60 p-2 rounded-xl border border-slate-100">
+                    <input type="number" inputmode="decimal" class="points-input w-full bg-white border border-slate-200 rounded-lg p-2 text-center font-bold text-lg mb-2" placeholder="0">
+                    <div class="flex gap-2"><button class="subtract-btn w-10 bg-red-50 text-red-500 rounded-lg font-bold text-xl h-10">-</button><button class="add-btn flex-1 bg-teal-600 text-white rounded-lg font-bold h-10">إضافة</button></div>
                 </div>
             </div>
 
-            <div class="glass-panel rounded-3xl p-6 team-card team-card-hover transition-all duration-300 relative overflow-hidden group shadow-soft-xl"
-                style="--team-color: #e11d48; --team-color-alpha: rgba(225, 29, 72, 0.25);">
-                <div class="relative z-10 flex flex-col h-full justify-between">
-                    <div class="text-center mb-4">
-                        <div
-                            class="w-16 h-16 mx-auto bg-white rounded-2xl flex items-center justify-center mb-3 text-rose-600 shadow-md border border-rose-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="w-8 h-8">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
-                            </svg>
-                        </div>
-                        <h2 class="text-xl font-bold text-slate-800">قسم الشبكات</h2>
+            <div class="glass-panel rounded-3xl p-4 md:p-6 team-card relative group shadow-soft-xl" style="--team-color: #e11d48;">
+                <div class="text-center mb-2">
+                    <div class="w-12 h-12 md:w-16 md:h-16 mx-auto bg-white rounded-2xl flex items-center justify-center mb-2 text-rose-600 shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 md:h-8 md:w-8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" /></svg>
                     </div>
-                    <div class="text-center my-4"><span
-                            class="score text-6xl font-black text-rose-600 drop-shadow-sm transition-transform duration-200 inline-block"
-                            data-value="0">0</span></div>
-                    <div class="bg-white/60 p-4 rounded-xl border border-slate-100 backdrop-blur-sm">
-                        <input type="number"
-                            class="points-input w-full bg-white border border-slate-200 rounded-lg p-3 text-center text-slate-800 font-bold text-xl mb-3 focus:outline-none"
-                            placeholder="0.0">
-                        <div class="flex gap-2"><button
-                                class="subtract-btn w-12 flex items-center justify-center bg-red-50 text-red-500 rounded-lg font-bold text-xl h-10">-</button><button
-                                class="add-btn flex-1 bg-gradient-to-r from-rose-500 to-rose-600 text-white rounded-lg font-bold h-10">إضافة
-                                +</button></div>
-                    </div>
+                    <h2 class="text-lg md:text-xl font-bold text-slate-800">قسم الشبكات</h2>
+                </div>
+                <div class="text-center my-2"><span class="score text-5xl md:text-6xl font-black text-rose-600" data-value="0">0</span></div>
+                <div class="bg-white/60 p-2 rounded-xl border border-slate-100">
+                    <input type="number" inputmode="decimal" class="points-input w-full bg-white border border-slate-200 rounded-lg p-2 text-center font-bold text-lg mb-2" placeholder="0">
+                    <div class="flex gap-2"><button class="subtract-btn w-10 bg-red-50 text-red-500 rounded-lg font-bold text-xl h-10">-</button><button class="add-btn flex-1 bg-rose-600 text-white rounded-lg font-bold h-10">إضافة</button></div>
                 </div>
             </div>
+
         </div>
 
         <div class="text-center pb-12">
-            <button id="announce-btn"
-                class="relative group px-12 py-5 bg-slate-900 text-white rounded-full font-black text-xl shadow-2xl hover:scale-105 transition-all duration-300 overflow-hidden ring-4 ring-slate-200">
-                <span class="relative z-10 flex items-center gap-3">إعلان النتائج النهائية 🏆</span>
-                <div
-                    class="absolute inset-0 h-full w-full bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out">
-                </div>
+            <button id="announce-btn" class="relative group px-10 py-4 bg-slate-900 text-white rounded-full font-black text-xl shadow-2xl hover:scale-105 transition-all duration-300 ring-4 ring-slate-200">
+                إعلان النتائج النهائية 🏆
             </button>
         </div>
     </div>
 
-    <div id="results-view" class="fixed inset-0 z-50 bg-[#f1f5f9] hidden flex-col font-sans">
+    <div id="results-view" class="fixed inset-0 z-50 bg-[#f1f5f9] hidden flex-col h-full">
 
-        <div class="w-full pt-8 pb-2 text-center z-40 animate-fade-in shrink-0 relative">
-            <h1 class="text-4xl md:text-6xl font-black drop-shadow-sm flex items-center justify-center gap-3">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-slate-700 to-slate-900">
-                    النتائج النهائية
-                </span>
+        <div class="w-full pt-4 px-4 pb-2 shrink-0 relative flex justify-center items-center">
+            
+            <button id="back-btn" class="absolute right-4 top-5 md:top-6 z-50 text-slate-500 hover:text-slate-900 bg-white px-3 py-2 rounded-full shadow-sm hover:shadow transition-all flex items-center gap-2">
+                <span class="font-bold text-sm">عودة</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </button>
+
+            <h1 class="text-3xl md:text-6xl font-black text-slate-800 drop-shadow-sm flex items-center gap-2 mt-2">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-slate-700 to-slate-900">النتائج</span>
                 <span>🏆</span>
             </h1>
-
-            <button id="back-btn"
-                class="absolute top-6 right-6 z-50 text-slate-500 hover:text-slate-900 font-bold flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm hover:shadow transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                عودة
-            </button>
         </div>
 
-        <div
-            class="flex-grow w-full max-w-6xl px-4 flex items-end justify-center gap-4 md:gap-8 mx-auto pb-28 transition-all duration-500 relative z-10">
-            <div id="rank-2-container" class="w-1/3 flex flex-col items-center justify-end h-full order-1 z-10"></div>
-            <div id="rank-1-container" class="w-1/3 flex flex-col items-center justify-end h-full order-2 z-20"></div>
-            <div id="rank-3-container" class="w-1/3 flex flex-col items-center justify-end h-full order-3 z-10"></div>
+        <div class="flex-grow w-full max-w-6xl px-4 flex items-end justify-center gap-3 md:gap-8 mx-auto pb-4 md:pb-8 transition-all duration-500 relative z-10" style="min-height: 40vh;">
+            <div id="rank-2-container" class="w-1/3 flex flex-col items-center justify-end h-full order-1"></div>
+            <div id="rank-1-container" class="w-1/3 flex flex-col items-center justify-end h-full order-2"></div>
+            <div id="rank-3-container" class="w-1/3 flex flex-col items-center justify-end h-full order-3"></div>
         </div>
 
-        <div id="others-container" class="absolute bottom-0 left-0 w-full others-bar z-50 py-4 px-8">
-            <div class="max-w-7xl mx-auto flex items-center justify-center gap-6" id="others-grid">
-            </div>
+        <div id="others-container" class="w-full others-bar z-50 shrink-0 pb-safe">
+            <div id="others-grid" class="max-w-7xl mx-auto p-4 grid grid-cols-1 md:flex md:justify-center md:items-center gap-3">
+                </div>
         </div>
     </div>
 
@@ -355,7 +278,6 @@
             const backBtn = document.getElementById('back-btn');
             const addButtons = document.querySelectorAll('.add-btn');
             const subtractButtons = document.querySelectorAll('.subtract-btn');
-
             let confettiInterval;
 
             const teamStyles = {
@@ -441,46 +363,45 @@
                     if (!team) return '';
                     const textColor = teamStyles[team.name] || 'text-gray-800';
                     return `
-                        <div class="flex flex-col items-center w-full animate-grow-up" style="height: ${h_percent};">
-                            <div class="mb-4 text-center animate-bounce-in relative z-20" style="animation-delay: 500ms">
-                                <div class="bg-white/80 backdrop-blur-sm px-6 py-2 rounded-2xl shadow-sm mb-2 inline-block whitespace-nowrap border border-white/50">
-                                    <h3 class="font-bold text-gray-700 text-lg md:text-xl">${team.name}</h3>
+                        <div class="flex flex-col items-center w-full animate-grow-up justify-end" style="height: ${h_percent};">
+                            <div class="mb-2 text-center animate-bounce-in relative z-20" style="animation-delay: 500ms">
+                                <div class="bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg shadow-sm mb-1 inline-block border border-white/50 max-w-full">
+                                    <h3 class="font-bold text-gray-700 text-[10px] md:text-lg truncate leading-tight">${team.name}</h3>
                                 </div>
-                                <div class="text-5xl md:text-7xl font-black ${textColor} drop-shadow-md">${team.score}</div>
+                                <div class="text-2xl md:text-7xl font-black ${textColor} drop-shadow-md">${team.score}</div>
                             </div>
                             <div class="podium-bar w-full h-full ${bar_class} relative z-10">
                                 <div class="medal-icon animate-float">${medal_emoji}</div>
-                                <div class="text-white/40 text-7xl md:text-9xl font-black mb-8 select-none mix-blend-overlay">${rank}</div>
+                                <div class="text-white/40 text-4xl md:text-9xl font-black mb-2 md:mb-8 select-none mix-blend-overlay flex items-end justify-center pb-2 h-full">${rank}</div>
                             </div>
                         </div>
                     `;
                 };
 
-                // تم تعديل النسب المئوية لتناسب المساحة بعد إضافة العنوان كعنصر Flex
-                document.getElementById('rank-1-container').innerHTML = createColumn(teams[0], 1, '80%', 'bar-rank-1', '🥇');
-                document.getElementById('rank-2-container').innerHTML = createColumn(teams[1], 2, '55%', 'bar-rank-2', '🥈');
-                document.getElementById('rank-3-container').innerHTML = createColumn(teams[2], 3, '40%', 'bar-rank-3', '🥉');
+                // نسب مئوية محسنة للموبايل
+                document.getElementById('rank-1-container').innerHTML = createColumn(teams[0], 1, '70%', 'bar-rank-1', '🥇');
+                document.getElementById('rank-2-container').innerHTML = createColumn(teams[1], 2, '50%', 'bar-rank-2', '🥈');
+                document.getElementById('rank-3-container').innerHTML = createColumn(teams[2], 3, '35%', 'bar-rank-3', '🥉');
 
-                // --- عرض بقية الفرق في الشريط السفلي ---
                 const othersGrid = document.getElementById('others-grid');
                 othersGrid.innerHTML = '';
 
                 if (teams.length > 3) {
                     teams.slice(3).forEach((team, idx) => {
                         const rank = idx + 4;
+                        // تصميم مختلف للموبايل (Grid-cols-1) وللكمبيوتر (Flex)
                         othersGrid.innerHTML += `
-                            <div class="other-team-pill rounded-full py-2 px-6 flex items-center gap-4 animate-slide-up border border-slate-200" style="animation-delay: ${800 + (idx * 100)}ms">
-                                <span class="bg-slate-300 text-slate-700 w-8 h-8 flex items-center justify-center rounded-full font-black text-sm">${rank}</span>
-                                <div class="flex items-center gap-2">
-                                    <span class="font-bold text-slate-700 text-lg">${team.name}</span>
-                                    <span class="w-px h-4 bg-slate-300 mx-1"></span>
-                                    <span class="font-black text-slate-500 text-xl">${team.score}</span>
+                            <div class="other-team-pill bg-white rounded-xl p-3 md:py-2 md:px-6 flex items-center justify-between md:justify-start gap-4 animate-slide-up border border-slate-200 shadow-sm w-full md:w-auto" style="animation-delay: ${800 + (idx * 100)}ms">
+                                <div class="flex items-center gap-3">
+                                    <span class="bg-slate-200 text-slate-700 w-8 h-8 flex items-center justify-center rounded-full font-black text-sm">${rank}</span>
+                                    <span class="font-bold text-slate-800 text-sm md:text-lg">${team.name}</span>
                                 </div>
+                                <span class="font-black text-slate-600 text-lg md:text-xl bg-slate-50 px-3 py-1 rounded-lg">${team.score}</span>
                             </div>
                         `;
                     });
                 } else {
-                    othersGrid.innerHTML = `<span class="text-gray-400 font-medium">جميع الفرق على المنصة!</span>`;
+                    othersGrid.innerHTML = `<span class="text-gray-400 font-medium text-sm md:text-base text-center block w-full py-4">جميع الفرق على المنصة!</span>`;
                 }
             }
 
@@ -488,9 +409,7 @@
                 var duration = 15 * 1000;
                 var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 60 };
                 var randomInOut = (min, max) => Math.random() * (max - min) + min;
-
                 if (confettiInterval) clearInterval(confettiInterval);
-
                 confettiInterval = setInterval(function () {
                     var particleCount = 40;
                     confetti({ ...defaults, particleCount, origin: { x: randomInOut(0.1, 0.3), y: Math.random() - 0.2 } });
@@ -507,5 +426,4 @@
         });
     </script>
 </body>
-
 </html>
